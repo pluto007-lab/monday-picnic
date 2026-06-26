@@ -17,6 +17,9 @@ Monday-Picnic/
 ├── index.html
 └── img/
 ```
+## 公開ページ
+
+https://pluto007-lab.github.io/monday-picnic/
 
 ## コンセプト
 

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monday Picnic | 月曜日が待ち遠しくなる雑貨店</title>
+    <!-- 2026年のトレンドに合わせたフォント選定 -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Zen+Old+Mincho:wght@400;700&family=Fredoka:wght@400;600&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.0/lucide.min.js"></script>
+    <style>
+        :root {
+            --brand-blue: #9dafd3;
+            --brand-yellow: #FFF9C4;
+            --soft-pink: #fce4ec;
+            --deep-navy: #3a4764;
+            --text-main: #4a5568;
+            --bg-light: #fdfcf9;
+            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Zen Old Mincho', serif;
+            color: var(--text-main);
+            background-color: var(--bg-light);
+            overflow-x: hidden;
+            line-height: 1.8;
+        }
+
+        /* --- ヘッダー --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 25px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.8rem;
+            color: var(--brand-blue);
+            font-weight: 600;
+            letter-spacing: -1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* --- 中身（JSなしのデザイン） --- */
+
+        /* ヒーローセクション：ふわっと浮き出るアニメーションをCSSのみで実装 */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: #fff;
+            padding: 0 5%;
+        }
+
+        .hero-bg {
+            position: absolute;
+            width: 90%;
+            height: 80%;
+            background: url('https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&q=80&w=1200') center/cover;
+            border-radius: 40px;
+            filter: saturate(0.8) brightness(0.9);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            animation: fadeInUp 1.2s ease-out forwards;
+        }
+
+        .hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3.5rem, 10vw, 8rem);
+            line-height: 0.9;
+            font-style: italic;
+            margin-bottom: 20px;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .btn-luxury {
+            display: inline-block;
+            padding: 20px 50px;
+            background: white;
+            color: var(--brand-blue);
+            text-decoration: none;
+            border-radius: 100px;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        .btn-luxury:hover {
+            transform: scale(1.05) translateY(-5px);
+            background: var(--brand-blue);
+            color: white;
+        }
+
+        /* エディトリアルセクション */
+        .editorial {
+            padding: 120px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .editorial-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .editorial-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4rem;
+            font-style: italic;
+            color: var(--brand-blue);
+            margin-bottom: 10px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 30px;
+        }
+
+        .tile {
+            position: relative;
+            border-radius: 30px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 20px 50px rgba(157, 175, 211, 0.1);
+            transition: var(--transition);
+        }
+
+        .tile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .tile:hover {
+            transform: translateY(-10px);
+        }
+
+        .tile:hover .tile-img {
+            transform: scale(1.1);
+        }
+
+        .tile-text {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            color: white;
+            z-index: 2;
+        }
+
+        .tile-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+        }
+
+        .tile-1 { grid-column: span 8; height: 500px; }
+        .tile-2 { grid-column: span 4; height: 500px; }
+        .tile-3 { grid-column: span 4; height: 400px; }
+        .tile-4 { grid-column: span 8; height: 400px; }
+
+        /* メッセージセクション */
+        .message-section {
+            padding: 150px 10%;
+            display: flex;
+            align-items: center;
+            gap: 100px;
+            background: var(--soft-pink);
+            position: relative;
+            margin-top: 100px;
+        }
+
+        .message-img-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .message-img {
+            width: 100%;
+            border-radius: 200px 200px 0 0;
+            box-shadow: 30px 30px 0 var(--brand-blue);
+            display: block;
+        }
+
+        .message-content {
+            flex: 1;
+        }
+
+        .message-content h3 {
+            font-size: 3rem;
+            font-family: 'Cormorant Garamond', serif;
+            margin-bottom: 30px;
+            line-height: 1.2;
+            color: var(--deep-navy);
+        }
+
+        .message-content p {
+            margin-bottom: 30px;
+            color: var(--text-main);
+        }
+
+        /* ギンガムチェックのCTA */
+        .cta-gingham {
+            padding: 150px 5%;
+            text-align: center;
+            background-color: #fff;
+            background-image: 
+                linear-gradient(90deg, rgba(157, 175, 211, 0.1) 50%, transparent 50%),
+                linear-gradient(rgba(157, 175, 211, 0.1) 50%, transparent 50%);
+            background-size: 60px 60px;
+        }
+
+        .cta-card {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 80px 40px;
+            border-radius: 40px;
+            border: 1px solid var(--soft-pink);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.05);
+        }
+
+        .cta-card h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            font-style: italic;
+            margin-bottom: 20px;
+            color: var(--brand-blue);
+        }
+
+        /* --- フッター --- */
+        footer {
+            background: var(--deep-navy);
+            color: white;
+            padding: 100px 5% 50px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 50px;
+            margin-bottom: 80px;
+        }
+
+        .footer-logo {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .grid-container { grid-template-columns: 1fr; }
+            .tile-1, .tile-2, .tile-3, .tile-4 { grid-column: span 1; height: 350px; }
+            .message-section { flex-direction: column; text-align: center; padding: 80px 5%; gap: 50px; }
+            .nav-links { display: none; }
+            .hero-title { font-size: 3.5rem; }
+            .message-content h3 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">🧺 Monday Picnic</a>
+        <nav class="nav-links">
+            <a href="#">Shop</a>
+            <a href="#">Our Story</a>
+            <a href="#">Journal</a>
+            <a href="#">Contact</a>
+        </nav>
+        <div style="display: flex; gap: 20px;">
+            <i data-lucide="shopping-cart"></i>
+            <i data-lucide="menu"></i>
+        </div>
+    </header>
+
+    <!-- 中身：JavaScriptなしで構築 -->
+    <main>
+        <section class="hero">
+            <div class="hero-bg"></div>
+            <div class="hero-content">
+                <p class="hero-subtitle">Every Monday is a New Beginning</p>
+                <h1 class="hero-title">Sparkling<br>Your Week</h1>
+                <a href="#" class="btn-luxury">Explore Collection</a>
+            </div>
+        </section>
+
+        <section class="editorial">
+            <div class="editorial-header">
+                <h2>The Picnic Menu</h2>
+                <p>日常の隙間に、彩りを添えるアイテムたち</p>
+            </div>
+            
+            <div class="grid-container">
+                <div class="tile tile-1">
+                    <div class="tile-overlay"></div>
+                    <img src="https://images.unsplash.com/photo-1583592864229-873f9167389a?auto=format&fit=crop&q=80&w=800" alt="Stationery" class="tile-img">
+                    <div class="tile-text">
+                        <p style="text-transform: uppercase; letter-spacing: 3px; font-size: 0.8rem;">Chapter 01</p>
+                        <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-style: italic;">Stationery</h3>
+                    </div>
+                </div>
+                <div class="tile tile-2">
+                    <div class="tile-overlay"></div>
+                    <img src="https://images.unsplash.com/photo-1603006905393-d16799026732?auto=format&fit=crop&q=80&w=600" alt="Interior" class="tile-img">
+                    <div class="tile-text">
+                        <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 2rem;">Interior</h3>
+                    </div>
+                </div>
+                <div class="tile tile-3">
+                    <div class="tile-overlay"></div>
+                    <img src="https://images.unsplash.com/photo-1618331835717-801e976710b2?auto=format&fit=crop&q=80&w=600" alt="Accessory" class="tile-img">
+                    <div class="tile-text">
+                        <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 2rem;">Jewelry</h3>
+                    </div>
+                </div>
+                <div class="tile tile-4">
+                    <div class="tile-overlay"></div>
+                    <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800" alt="New Arrival" class="tile-img">
+                    <div class="tile-text">
+                        <p style="text-transform: uppercase; letter-spacing: 3px; font-size: 0.8rem;">Limited Offer</p>
+                        <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-style: italic;">Monday Special</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="message-section">
+            <div class="message-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?auto=format&fit=crop&q=80&w=600" alt="About Us" class="message-img">
+            </div>
+            <div class="message-content">
+                <span style="color: var(--brand-blue); font-weight: bold; text-transform: uppercase; letter-spacing: 2px;">Our Philosophy</span>
+                <h3>憂鬱な月曜日の朝に、<br>小さな魔法を。</h3>
+                <p>
+                    新しいシールを貼る。お気に入りのキャンドルを灯す。<br>
+                    それだけで、仕事や勉強の時間が特別なものに変わります。<br>
+                    Monday Picnicは、韓国の感性をエッセンスに、<br>
+                    あなたの毎日を「ピクニック」に変えるお手伝いをします。
+                </p>
+                <a href="#" style="color: var(--text-main); font-weight: bold; border-bottom: 2px solid var(--brand-blue); text-decoration: none; padding-bottom: 5px;">Read Our Story</a>
+            </div>
+        </section>
+
+        <section class="cta-gingham">
+            <div class="cta-card">
+                <h2>Join the Picnic</h2>
+                <p style="margin-bottom: 40px; color: #666;">毎週月曜日の新作発売情報や、限定クーポンをお届けします。</p>
+                <form style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                    <input type="email" placeholder="Email Address" style="padding: 18px 30px; border-radius: 50px; border: 1px solid #eee; width: 300px; outline: none;">
+                    <button type="submit" class="btn-luxury" style="box-shadow: none; cursor: pointer; border: none;">Subscribe</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <div class="footer-logo">🧺 Monday Picnic</div>
+                <p style="opacity: 0.7; font-size: 0.9rem;">Seoul to Tokyo.<br>Curated Select Shop.</p>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 20px;">Support</h4>
+                <ul style="list-style: none; opacity: 0.7; line-height: 2.5; font-size: 0.9rem;">
+                    <li>Shipping Policy</li>
+                    <li>Return & Refund</li>
+                    <li>FAQ</li>
+                    <li>Privacy Policy</li>
+                </ul>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 20px;">Connect</h4>
+                <div style="display: flex; gap: 20px;">
+                    <i data-lucide="instagram"></i>
+                    <i data-lucide="twitter"></i>
+                    <i data-lucide="facebook"></i>
+                </div>
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 40px; text-align: center; font-size: 0.8rem; opacity: 0.5;">
+            &copy; 2026 Monday Picnic. Designed for your better Mondays.
+        </div>
+    </footer>
+
+    <script>
+        // アイコン表示のみJSを利用（Lucideの仕様上）
+        lucide.createIcons();
+    </script>
+</body>
+</html>
